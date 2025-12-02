@@ -11,7 +11,7 @@ import { baseUrl } from './sitemap'
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'Next.js Portfolio Starter',
+    default: 'Achmet Chakseven',
     template: '%s | Next.js Portfolio Starter',
   },
   description: 'This is my portfolio.',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
 }
 
-const cx = (...classes) => classes.filter(Boolean).join(' ')
+const cx = (...classes: string[]) => classes.filter(Boolean).join(' ')
 
 export default function RootLayout({
   children,
@@ -46,6 +46,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cx(
         'text-black bg-white dark:text-white dark:bg-black',
         GeistSans.variable,

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
-import { CustomMDX } from 'app/components/mdx'
-import { formatDate, getBlogPosts } from 'app/blog/utils'
-import { baseUrl } from 'app/sitemap'
+import { CustomMDX } from '@/app/components/mdx'
+import { formatDate, getBlogPosts } from '@/app/blog/utils'
+import { baseUrl } from '@/app/sitemap'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -11,7 +11,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata(props: { params: any }) {
+  const params = await props.params;
+
   let post = getBlogPosts().find((post) => post.slug === params.slug)
   if (!post) {
     return
@@ -51,7 +53,9 @@ export function generateMetadata({ params }) {
   }
 }
 
-export default function Blog({ params }) {
+export default async function BlogPost(props: { params: any }) {
+  const params = await props.params;
+
   let post = getBlogPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
@@ -77,7 +81,7 @@ export default function Blog({ params }) {
             url: `${baseUrl}/blog/${post.slug}`,
             author: {
               '@type': 'Person',
-              name: 'My Portfolio',
+              name: 'Achmet Chakseven',
             },
           }),
         }}
