@@ -9,10 +9,11 @@ type Metadata = {
 }
 
 function parseFrontmatter(fileContent: string) {
-  // KORRIGIERT: Regex mit Anker ^ am Anfang, um nur das erste Frontmatter zu matchen.
+  // Regex etwas toleranter für Whitespace
   let frontmatterRegex = /^---\s*([\s\S]*?)\s*---/
   let match = frontmatterRegex.exec(fileContent)
   
+  // Sicherheitsabfrage, falls kein Frontmatter gefunden wird
   if (!match) {
     return { metadata: {} as Metadata, content: fileContent }
   }
@@ -33,6 +34,7 @@ function parseFrontmatter(fileContent: string) {
 }
 
 function getMDXFiles(dir: string) {
+  // Verhindert Absturz, falls der Ordner nicht existiert
   if (!fs.existsSync(dir)) {
     return []
   }
@@ -64,12 +66,9 @@ export function getBlogPosts() {
 
 export function formatDate(date: string, includeRelative = false) {
   let currentDate = new Date()
-  
-  // KORRIGIERT: Verhindere Zeitzonen-Versatz bei reinen Datumsangaben (YYYY-MM-DD)
   if (!date.includes('T')) {
     date = `${date}T00:00:00`
   }
-  
   let targetDate = new Date(date)
 
   let yearsAgo = currentDate.getFullYear() - targetDate.getFullYear()
@@ -88,7 +87,7 @@ export function formatDate(date: string, includeRelative = false) {
     formattedDate = 'Today'
   }
 
-  let fullDate = targetDate.toLocaleDateString('de-DE', {
+  let fullDate = targetDate.toLocaleString('de-DE', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
