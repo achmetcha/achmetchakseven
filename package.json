@@ -14,7 +14,7 @@
     "@vercel/speed-insights": "^1.0.9",
     "geist": "1.2.2",
     "lucide-react": "^0.555.0",
-    "next": "canary",
+    "next": "16.0.7",
     "next-mdx-remote": "^5.0.0",
     "postcss": "^8.4.35",
     "react": "19.0.0-rc.1",
