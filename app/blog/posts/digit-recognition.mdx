@@ -1,0 +1,60 @@
+---
+title: 'KI im Browser: Handgeschriebene Ziffernerkennung mit Next.js und ONNX'
+publishedAt: '2025-12-08'
+summary: 'Ein technischer Einblick, wie ich ein PyTorch-Modell direkt im Browser integriert habe, um handgeschriebene Ziffern in Echtzeit zu erkennen.'
+---
+
+Künstliche Intelligenz wird oft mit schweren Server-Backends und Python-APIs assoziiert. Für mein Portfolio wollte ich jedoch einen anderen Weg gehen: Ein neuronales Netz, das direkt im Browser des Nutzers läuft – ohne Latenz durch Serveranfragen und ohne Backend-Kosten.
+
+Das Ergebnis ist die "Live KI Demo" auf der Startseite. In diesem Artikel erkläre ich, wie ich das System von Grund auf gebaut habe, vom Training in PyTorch bis zur Integration in Next.js via WebAssembly.
+
+Den vollständigen Code für das Training des Modells findest du hier auf GitHub: https://github.com/achmetcha/digit-recognizer-py
+
+## Das Fundament: PyTorch und CNNs
+
+Alles beginnt mit dem Modell. Ich habe ein Convolutional Neural Network (CNN) verwendet, da diese Architektur besonders gut darin ist, visuelle Muster wie Kanten und Kurven zu erkennen. Als Datensatz diente der klassische MNIST-Datensatz, der aus 60.000 handgeschriebenen Ziffern besteht.
+
+Die Architektur ist bewusst simpel gehalten, um die Dateigröße gering zu halten, erreicht aber dennoch eine Genauigkeit von über 98%:
+
+1. Zwei Convolutional Layers zur Merkmalsextraktion
+2. Max Pooling zur Reduktion der Dimensionen
+3. Dropout zur Vermeidung von Overfitting
+4. Zwei Fully Connected Layers für die Klassifizierung
+
+## Die Brücke zum Web: ONNX
+
+Normalerweise würde man ein solches Modell in Python betreiben. Da Browser jedoch kein Python verstehen, musste das Modell in ein universelles Format konvertiert werden. Hier kommt ONNX (Open Neural Network Exchange) ins Spiel.
+
+ONNX ermöglicht es, Modelle zwischen verschiedenen Frameworks auszutauschen. Nach dem Training exportierte ich das PyTorch-Modell (`.pth`) in das ONNX-Format (`.onnx`). Dabei wird ein "Dummy-Input" durch das Netz geschickt, um die mathematischen Operationen aufzuzeichnen und in einen statischen Graphen zu übersetzen.
+
+## Frontend-Integration mit Next.js
+
+Für die Ausführung im Browser nutze ich `onnxruntime-web`. Diese Bibliothek nutzt WebAssembly (WASM), um die rechenintensiven Inferenz-Aufgaben effizient auf der CPU des Clients auszuführen.
+
+Die Integration in Next.js erforderte einige spezifische Schritte:
+
+1. **Modell-Bereitstellung:** Die `.onnx`-Datei muss im `public`-Ordner liegen, damit sie via Fetch-API geladen werden kann.
+2. **WASM-Backend:** Da die Berechnung via WebAssembly läuft, müssen die entsprechenden `.wasm`-Dateien der Runtime ebenfalls zugänglich gemacht werden.
+
+## Die Herausforderung: Preprocessing
+
+Der schwierigste Teil war nicht das Modell selbst, sondern die Datenaufbereitung. Ein neuronales Netz erwartet exakt das gleiche Datenformat wie beim Training. Wenn ich auf dem HTML5 Canvas zeichne, erhalte ich hochauflösende, schwarze Linien auf weißem Grund. Das Modell erwartet jedoch:
+
+* Ein 28x28 Pixel großes Bild
+* Graustufen (1 Kanal)
+* Weiße Schrift auf schwarzem Grund (invertiert)
+* Zentrierte Ziffern
+* Normalisierte Pixelwerte
+
+Um dies zu erreichen, habe ich eine Pipeline in TypeScript geschrieben, die das Canvas-Bild analysiert:
+
+1. **Bounding Box:** Der Algorithmus schneidet den leeren Rand um die Zeichnung weg.
+2. **Skalierung:** Der Ausschnitt wird so skaliert, dass er in eine 20x20 Box passt.
+3. **Zentrierung:** Diese Box wird in der Mitte eines 28x28 Rasters platziert.
+4. **Normalisierung:** Die Pixelwerte (0-255) werden in Fließkommazahlen umgewandelt und mathematisch normalisiert (Subtraktion des Mittelwerts, Division durch die Standardabweichung), um den statistischen Eigenschaften des MNIST-Trainingssets zu entsprechen.
+
+## Fazit
+
+Dieses Projekt zeigt, wie leistungsfähig moderne Webtechnologien geworden sind. Die Kombination aus Next.js für das Framework und ONNX Runtime für die Inferenz ermöglicht komplexe ML-Anwendungen, die datenschutzfreundlich (da lokal) und performant sind.
+
+Der Quellcode für das Web-Projekt ist ebenfalls Teil dieses Portfolios. Schau dir gerne die Implementierung der `DigitRecognizer`-Komponente an, um mehr Details zum Preprocessing zu erfahren.
