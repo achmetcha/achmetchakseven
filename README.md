@@ -1,42 +1,80 @@
-# Portfolio Blog Starter
+# Achmet Chakseven - Portfolio & Blog
 
-This is a porfolio site template complete with a blog. Includes:
+Dies ist der Quellcode für mein persönliches Portfolio und meinen Blog. Die Seite wurde mit Next.js (App Router) erstellt und demonstriert moderne Web-Technologien sowie die Integration von Machine Learning direkt im Browser.
 
-- MDX and Markdown support
-- Optimized for SEO (sitemap, robots, JSON-LD schema)
-- RSS Feed
-- Dynamic OG images
-- Syntax highlighting
-- Tailwind v4
-- Vercel Speed Insights / Web Analytics
-- Geist font
+Live Demo: https://portfolio-blog-starter.vercel.app
 
-## Demo
+## Features
 
-https://portfolio-blog-starter.vercel.app
+- Next.js App Router: Modernes React-Framework für Server-Side Rendering (SSR) und statische Generierung.
+- Client-Side AI: Ein interaktiver Handwritten Digit Recognizer, der ein PyTorch-Modell via ONNX Runtime Web direkt im Browser ausführt (WebAssembly). Keine Server-Inferenz nötig.
+- MDX Blog: Blog-Posts werden in Markdown/MDX geschrieben, komplett mit Syntax-Highlighting.
+- Tailwind CSS v4: Modernes Styling mit Dark Mode Support.
+- SEO Optimiert: Automatische Generierung von Sitemap, Robots.txt, JSON-LD Schema und Open Graph Bildern.
+- Performance: Optimiert mit Vercel Speed Insights und Analytics.
 
-## How to Use
+## Tech Stack
 
-You can choose from one of the following two methods to use this repository:
+- Framework: Next.js
+- Sprache: TypeScript
+- Styling: Tailwind CSS
+- Machine Learning: ONNX Runtime Web (WASM Backend)
+- Content: MDX Remote
+- Deployment: Vercel
 
-### One-Click Deploy
+## Installation & Start
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+Stelle sicher, dass du Node.js installiert hast. Dieses Projekt nutzt pnpm.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/solutions/blog&project-name=blog&repository-name=blog)
+1. Repository klonen
 
-### Clone and Deploy
+   git clone https://github.com/achmetcha/achmetchakseven.git
+   cd achmetchakseven
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
+2. Abhängigkeiten installieren
 
-```bash
-pnpm create next-app --example https://github.com/vercel/examples/tree/main/solutions/blog blog
-```
+   pnpm install
 
-Then, run Next.js in development mode:
+3. Das KI-Modell platzieren
 
-```bash
-pnpm dev
-```
+   Damit die Ziffernerkennung funktioniert, muss das trainierte ONNX-Modell im 'public' Ordner liegen.
+   Falls du das Python-Projekt 'digit-recognizer-py' genutzt hast, kopiere die 'digit_net.onnx' von dort.
 
-Deploy it to the cloud with [Vercel](https://vercel.com/templates) ([Documentation](https://nextjs.org/docs/app/building-your-application/deploying)).
+   Stelle sicher, dass die Datei existiert:
+   ./public/digit_net.onnx
+
+4. Entwicklungsserver starten
+
+   pnpm dev
+
+   Öffne http://localhost:3000 in deinem Browser.
+
+## Wie die KI-Erkennung funktioniert
+
+Das Herzstück der "Live KI Demo" ist die Komponente 'DigitRecognizer' (app/components/digit-recognizer.tsx).
+
+1. Training (Python): Ein CNN wurde in PyTorch auf dem MNIST-Datensatz trainiert und nach ONNX exportiert.
+2. Inferenz (Browser): Die Seite lädt 'digit_net.onnx' mittels 'onnxruntime-web'.
+3. Preprocessing (TypeScript):
+   - Das Canvas-Bild wird analysiert und eine Bounding-Box um die Zeichnung gelegt.
+   - Das Bild wird auf 28x28 Pixel skaliert und zentriert.
+   - Die Pixelwerte werden normalisiert ((pixel - mean) / std), um exakt dem Training-Setup von PyTorch zu entsprechen.
+4. Berechnung: Das Modell läuft via WebAssembly (WASM) auf der CPU des Nutzers.
+
+## Projektstruktur
+
+achmetchakseven/
+├── app/
+│   ├── blog/              # Blog-Logik und MDX-Posts
+│   ├── components/        # React-Komponenten (Nav, Footer, DigitRecognizer...)
+│   ├── layout.tsx         # Haupt-Layout
+│   └── page.tsx           # Startseite (Portfolio)
+├── public/
+│   ├── digit_net.onnx     # Das trainierte KI-Modell
+│   └── ...                # Bilder und statische Assets
+├── next.config.js         # Next.js Konfiguration
+└── tailwind.config.ts     # Tailwind Konfiguration
+
+## Lizenz
+
+MIT Licensed.
