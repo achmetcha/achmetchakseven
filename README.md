@@ -92,5 +92,3 @@ achmetchakseven/
 
 MIT Licensed.
 
-```
-```
