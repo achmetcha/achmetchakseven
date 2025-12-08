@@ -16,7 +16,7 @@ export default function Page() {
           <div className="flex justify-start">
             <div className="relative w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full border-4 border-neutral-100 dark:border-neutral-800 shadow-lg bg-neutral-200">
                 <Image 
-                  src="/image.png" 
+                  src="/image.jpg" 
                   alt="Achmet Chakseven" 
                   fill
                   priority
