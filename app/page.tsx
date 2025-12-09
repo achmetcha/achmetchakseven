@@ -78,7 +78,7 @@ export default function Page() {
             {/* Etwas kompakteres Padding (p-5 statt p-6) */}
             <div className="border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 bg-neutral-50 dark:bg-neutral-900/50">
                     <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 text-center max-w-md mx-auto leading-relaxed">
-                        Dieses <strong>Convolutional Neural Network (CNN)</strong> läuft live in deinem Browser (TensorFlow.js).
+                        Dieses <strong>Convolutional Neural Network (CNN)</strong> läuft live in deinem Browser (ONNX).
                         Zeichne eine Ziffer, und das Modell analysiert die Pixelstruktur in Echtzeit.
                     </p>
                     <DigitRecognizer />
@@ -136,21 +136,25 @@ export default function Page() {
               </div>
             </div>
 
-            {/* Skill 3 */}
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 hover:shadow-md transition-all">
+            {/* Skill 3 - KORRIGIERT */}
+            <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 hover:shadow-md transition-all flex flex-col h-full">
+              
+              {/* Header */}
               <div className="flex items-center mb-2 text-purple-600 dark:text-purple-400">
                 <Server className="w-5 h-5 mr-2" />
                 <h3 className="font-bold text-sm">Software Engineering</h3>
               </div>
-              <div className="flex flex-col justify-between h-full">
-                <p className="text-xs text-neutral-500 mb-3">
-                  Algorithmen, Systemarchitektur & Low-Level.
-                </p>
-                <div className="flex flex-wrap gap-1.5 mt-auto">
+              
+              {/* Beschreibung */}
+              <p className="text-xs text-neutral-500 mb-3">
+                Algorithmen, Systemarchitektur & Low-Level.
+              </p>
+              
+              {/* Tags - mt-auto drückt dies ganz nach unten */}
+              <div className="flex flex-wrap gap-1.5 mt-auto">
                    <span className="px-2 py-0.5 bg-white dark:bg-black border border-neutral-200 dark:border-neutral-700 rounded text-[10px] uppercase tracking-wider font-medium">Java</span>
                    <span className="px-2 py-0.5 bg-white dark:bg-black border border-neutral-200 dark:border-neutral-700 rounded text-[10px] uppercase tracking-wider font-medium">C</span>
                    <span className="px-2 py-0.5 bg-white dark:bg-black border border-neutral-200 dark:border-neutral-700 rounded text-[10px] uppercase tracking-wider font-medium">Python</span>
-                </div>
               </div>
             </div>
 
