@@ -1,7 +1,3 @@
-Hier ist der vollständige und korrigierte Inhalt für die `README.md` deines Next.js-Projekts. Er enthält keine Emojis und stellt die Ordnerstruktur dank des Code-Blocks korrekt dar.
-
-Du kannst diesen Code kopieren und damit den Inhalt deiner `achmetchakseven/README.md` überschreiben.
-
 ````markdown
 # Achmet Chakseven - Portfolio & Blog
 
