@@ -1,3 +1,4 @@
+````markdown
 Achmet Chakseven – Portfolio & Blog
 
 Dies ist der Quellcode für mein persönliches Portfolio mit integriertem Blog. Die Anwendung basiert auf Next.js mit App Router und zeigt, wie sich moderne Web-Technologien mit Machine Learning direkt im Browser kombinieren lassen.
