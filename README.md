@@ -1,89 +1,99 @@
-````markdown
-# Achmet Chakseven - Portfolio & Blog
+Achmet Chakseven – Portfolio & Blog
 
-Dies ist der Quellcode für mein persönliches Portfolio und meinen Blog. Die Seite wurde mit Next.js (App Router) erstellt und demonstriert moderne Web-Technologien sowie die Integration von Machine Learning direkt im Browser.
+Dies ist der Quellcode für mein persönliches Portfolio mit integriertem Blog. Die Anwendung basiert auf Next.js mit App Router und zeigt, wie sich moderne Web-Technologien mit Machine Learning direkt im Browser kombinieren lassen.
 
-Live Demo: https://portfolio-blog-starter.vercel.app
+Live-Demo:
+[https://portfolio-blog-starter.vercel.app](https://portfolio-blog-starter.vercel.app)
 
-## Features
+Features
 
-- **Next.js App Router:** Modernes React-Framework für Server-Side Rendering (SSR) und statische Generierung.
-- **Client-Side AI:** Ein interaktiver Handwritten Digit Recognizer, der ein PyTorch-Modell via ONNX Runtime Web direkt im Browser ausführt (WebAssembly). Keine Server-Inferenz nötig.
-- **MDX Blog:** Blog-Posts werden in Markdown/MDX geschrieben, komplett mit Syntax-Highlighting.
-- **Tailwind CSS v4:** Modernes Styling mit Dark Mode Support.
-- **SEO Optimiert:** Automatische Generierung von Sitemap, Robots.txt, JSON-LD Schema und Open Graph Bildern.
-- **Performance:** Optimiert mit Vercel Speed Insights und Analytics.
+Die Anwendung nutzt den Next.js App Router für serverseitiges Rendering und statische Generierung.
 
-## Tech Stack
+Ein zentrales Element ist eine interaktive Handschrift-Ziffernerkennung. Dabei wird ein in PyTorch trainiertes Modell als ONNX-Datei eingebunden und mithilfe von ONNX Runtime Web direkt im Browser ausgeführt. Die Inferenz erfolgt vollständig clientseitig über WebAssembly – es ist keine Serververarbeitung erforderlich.
 
-- **Framework:** Next.js
-- **Sprache:** TypeScript
-- **Styling:** Tailwind CSS
-- **Machine Learning:** ONNX Runtime Web (WASM Backend)
-- **Content:** MDX Remote
-- **Deployment:** Vercel
+Der Blog basiert auf MDX. Beiträge werden in Markdown bzw. MDX verfasst und inklusive Syntax-Highlighting dargestellt.
 
-## Installation & Start
+Das Styling erfolgt mit Tailwind CSS v4, inklusive Unterstützung für einen Dark Mode.
 
-Stelle sicher, dass du Node.js installiert hast. Dieses Projekt nutzt pnpm.
+Die Seite ist suchmaschinenoptimiert und generiert automatisch Sitemap, robots.txt, JSON-LD-Schema sowie Open-Graph-Bilder.
 
-1. **Repository klonen**
+Für Performance-Analysen kommen Vercel Speed Insights und Analytics zum Einsatz.
 
-   ```bash
-   git clone [https://github.com/achmetcha/achmetchakseven.git](https://github.com/achmetcha/achmetchakseven.git)
-   cd achmetchakseven
-````
+Tech Stack
 
-2.  **Abhängigkeiten installieren**
+Framework: Next.js
+Sprache: TypeScript
+Styling: Tailwind CSS
+Machine Learning: ONNX Runtime Web mit WASM-Backend
+Content: MDX Remote
+Deployment: Vercel
 
-    ```bash
-    pnpm install
-    ```
+Installation und Start
 
-3.  **Das KI-Modell platzieren**
+Stelle sicher, dass Node.js installiert ist. Das Projekt verwendet pnpm.
 
-    Damit die Ziffernerkennung funktioniert, muss das trainierte ONNX-Modell im `public` Ordner liegen.
-    Falls du das Python-Projekt `digit-recognizer-py` genutzt hast, kopiere die `digit_net.onnx` von dort.
+1. Repository klonen
 
-    Stelle sicher, dass die Datei existiert:
-    `./public/digit_net.onnx`
+```bash
+git clone https://github.com/achmetcha/achmetchakseven.git
+cd achmetchakseven
+```
 
-4.  **Entwicklungsserver starten**
+2. Abhängigkeiten installieren
 
-    ```bash
-    pnpm dev
-    ```
+```bash
+pnpm install
+```
 
-    Öffne http://localhost:3000 in deinem Browser.
+3. KI-Modell bereitstellen
 
-## Wie die KI-Erkennung funktioniert
+Damit die Ziffernerkennung funktioniert, muss sich das trainierte ONNX-Modell im public-Ordner befinden.
 
-Das Herzstück der "Live KI Demo" ist die Komponente `DigitRecognizer` (`app/components/digit-recognizer.tsx`).
+Wenn du das Python-Projekt digit-recognizer-py verwendet hast, kopiere die Datei digit_net.onnx in das Verzeichnis public.
 
-1.  **Training (Python):** Ein CNN wurde in PyTorch auf dem MNIST-Datensatz trainiert und nach ONNX exportiert.
-2.  **Inferenz (Browser):** Die Seite lädt `digit_net.onnx` mittels `onnxruntime-web`.
-3.  **Preprocessing (TypeScript):**
-      - Das Canvas-Bild wird analysiert und eine Bounding-Box um die Zeichnung gelegt.
-      - Das Bild wird auf 28x28 Pixel skaliert und zentriert.
-      - Die Pixelwerte werden normalisiert (`(pixel - mean) / std`), um exakt dem Training-Setup von PyTorch zu entsprechen.
-4.  **Berechnung:** Das Modell läuft via WebAssembly (WASM) auf der CPU des Nutzers.
+Stelle sicher, dass folgende Datei existiert:
+./public/digit_net.onnx
 
-## Projektstruktur
+4. Entwicklungsserver starten
+
+```bash
+pnpm dev
+```
+
+Anschließend ist die Anwendung unter [http://localhost:3000](http://localhost:3000) im Browser erreichbar.
+
+Funktionsweise der KI-Erkennung
+
+Das Kernstück der Live-Demo ist die Komponente DigitRecognizer im Verzeichnis app/components/digit-recognizer.tsx.
+
+Training in Python
+Ein Convolutional Neural Network wurde mit PyTorch auf dem MNIST-Datensatz trainiert und anschließend in das ONNX-Format exportiert.
+
+Inferenz im Browser
+Die Anwendung lädt die Datei digit_net.onnx über onnxruntime-web und führt das Modell direkt im Browser aus.
+
+Preprocessing in TypeScript
+Das gezeichnete Canvas-Bild wird analysiert und auf die relevante Zeichenfläche begrenzt. Anschließend wird es auf 28 × 28 Pixel skaliert, zentriert und normalisiert. Die Normalisierung erfolgt nach dem Schema (pixel - mean) / std, um exakt dem Trainings-Setup in PyTorch zu entsprechen.
+
+Berechnung
+Die eigentliche Modellberechnung erfolgt über WebAssembly auf der CPU des jeweiligen Nutzers.
+
+Projektstruktur
 
 ```text
 achmetchakseven/
 ├── app/
-│   ├── blog/              # Blog-Logik und MDX-Posts
-│   ├── components/        # React-Komponenten (Nav, Footer, DigitRecognizer...)
-│   ├── layout.tsx         # Haupt-Layout
-│   └── page.tsx           # Startseite (Portfolio)
+│   ├── blog/              Blog-Logik und MDX-Posts
+│   ├── components/        React-Komponenten wie Navigation, Footer, DigitRecognizer
+│   ├── layout.tsx         Hauptlayout
+│   └── page.tsx           Startseite (Portfolio)
 ├── public/
-│   ├── digit_net.onnx     # Das trainierte KI-Modell
-│   └── ...                # Bilder und statische Assets
-├── next.config.js         # Next.js Konfiguration
-└── tailwind.config.ts     # Tailwind Konfiguration
+│   ├── digit_net.onnx     Trainiertes KI-Modell
+│   └── ...                Bilder und statische Assets
+├── next.config.js         Next.js Konfiguration
+└── tailwind.config.ts     Tailwind Konfiguration
 ```
 
-## Lizenz
+Lizenz
 
-MIT Licensed.
+Das Projekt steht unter der MIT-Lizenz.
