@@ -1,5 +1,5 @@
 import { BlogPosts } from '@/app/components/posts'
-import { Database, Code, Server, GraduationCap, Briefcase, Cpu, ArrowRight } from 'lucide-react'
+import { Database, Code, Server, GraduationCap, Briefcase, Cpu, ArrowRight, Mail} from 'lucide-react'
 import Image from 'next/image'
 import { DigitRecognizer } from '@/app/components/digit-recognizer'
 
