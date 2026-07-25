@@ -53,10 +53,6 @@ export default function Page() {
                 <span>B.Sc. Informatik (FAU)</span>
             </div>
             <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-400">
-                <Briefcase className="w-4 h-4 mr-3" />
-                <span>Werkstudent IT @ STAEDTLER</span>
-            </div>
-            <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-400">
                 <Cpu className="w-4 h-4 mr-3" />
                 <span>Data Science, Front End & Software Engineering</span>
             </div>
